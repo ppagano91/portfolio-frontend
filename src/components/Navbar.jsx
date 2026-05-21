@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { PORTFOLIO_CONFIG } from '../config/constants'
+import { usePortfolio } from '../contexts/PortfolioContext'
 import { useTheme } from '../contexts/ThemeContext'
 
 /**
@@ -7,6 +7,7 @@ import { useTheme } from '../contexts/ThemeContext'
  * Se oculta al hacer scroll hacia abajo y aparece al hacer scroll hacia arriba
  */
 const Navbar = () => {
+  const { personal } = usePortfolio()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { isDark, toggleTheme } = useTheme()
@@ -53,7 +54,7 @@ const Navbar = () => {
             onClick={() => scrollToSection('hero')}
             className="text-xl md:text-2xl font-bold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
           >
-            {PORTFOLIO_CONFIG.personal.name.split(' ')[0]}
+            {personal.name.split(' ')[0]}
           </button>
 
           {/* Desktop Navigation */}

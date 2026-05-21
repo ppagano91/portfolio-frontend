@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { PORTFOLIO_CONFIG } from '../config/constants'
+import { usePortfolio } from '../contexts/PortfolioContext'
+import { sendContactMessage } from '../services/contactService'
 
 /**
  * Sección Contacto
@@ -7,12 +8,15 @@ import { PORTFOLIO_CONFIG } from '../config/constants'
  * Links a LinkedIn, GitHub y email
  */
 const Contact = () => {
+  const { personal } = usePortfolio()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
   })
+  const [submitting, setSubmitting] = useState(false)
+  const [feedback, setFeedback] = useState(null)
 
   const handleChange = (e) => {
     setFormData({
@@ -21,11 +25,19 @@ const Contact = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // TODO: Implementar lógica de envío cuando se integre el backend
-    console.log('Form data:', formData)
-    alert('Formulario enviado (simulado). En el futuro se conectará con el backend.')
+    setSubmitting(true)
+    setFeedback(null)
+    try {
+      const message = await sendContactMessage(formData)
+      setFeedback({ type: 'success', text: message })
+      setFormData({ name: '', email: '', subject: '', message: '' })
+    } catch (err) {
+      setFeedback({ type: 'error', text: err.message })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -119,8 +131,19 @@ const Contact = () => {
                 ></textarea>
               </div>
 
-              <button type="submit" className="btn-primary w-full">
-                Enviar Mensaje
+              {feedback && (
+                <p
+                  className={`text-sm ${
+                    feedback.type === 'success'
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-red-600 dark:text-red-400'
+                  }`}
+                >
+                  {feedback.text}
+                </p>
+              )}
+              <button type="submit" className="btn-primary w-full" disabled={submitting}>
+                {submitting ? 'Enviando...' : 'Enviar Mensaje'}
               </button>
             </form>
           </div>
@@ -145,10 +168,10 @@ const Contact = () => {
                     <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                   <a
-                    href={`mailto:${PORTFOLIO_CONFIG.personal.email}`}
+                    href={`mailto:${personal.email}`}
                     className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                   >
-                    {PORTFOLIO_CONFIG.personal.email}
+                    {personal.email}
                   </a>
                 </div>
               </div>
@@ -160,7 +183,7 @@ const Contact = () => {
               </h3>
               <div className="flex flex-col space-y-3">
                 <a
-                  href={PORTFOLIO_CONFIG.personal.linkedin}
+                  href={personal.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
@@ -175,7 +198,7 @@ const Contact = () => {
                   LinkedIn
                 </a>
                 <a
-                  href={PORTFOLIO_CONFIG.personal.github}
+                  href={personal.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"

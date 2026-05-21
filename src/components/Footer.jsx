@@ -1,10 +1,11 @@
 import React from 'react'
-import { PORTFOLIO_CONFIG } from '../config/constants'
+import { usePortfolio } from '../contexts/PortfolioContext'
 
 /**
  * Footer con links sociales y copyright
  */
 const Footer = () => {
+  const { personal } = usePortfolio()
   const currentYear = new Date().getFullYear()
 
   return (
@@ -14,10 +15,10 @@ const Footer = () => {
           {/* Información */}
           <div>
             <h3 className="text-white text-lg font-bold mb-4">
-              {PORTFOLIO_CONFIG.personal.name}
+              {personal.name}
             </h3>
             <p className="text-gray-400">
-              {PORTFOLIO_CONFIG.personal.role}
+              {personal.role}
             </p>
           </div>
 
@@ -57,7 +58,7 @@ const Footer = () => {
             <h4 className="text-white font-semibold mb-4">Conecta</h4>
             <div className="flex space-x-4">
               <a
-                href={PORTFOLIO_CONFIG.personal.linkedin}
+                href={personal.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors"
@@ -72,7 +73,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href={PORTFOLIO_CONFIG.personal.github}
+                href={personal.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors"
@@ -87,7 +88,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href={`mailto:${PORTFOLIO_CONFIG.personal.email}`}
+                href={`mailto:${personal.email}`}
                 className="hover:text-white transition-colors"
                 aria-label="Email"
               >
@@ -110,7 +111,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-sm text-gray-400">
           <p>
-            © {currentYear} {PORTFOLIO_CONFIG.personal.name}. Todos los derechos reservados.
+            © {currentYear} {personal.name}. Todos los derechos reservados.
           </p>
         </div>
       </div>
