@@ -1,13 +1,41 @@
-import React from 'react'
-import { usePortfolio } from '../contexts/PortfolioContext'
+import React, { useEffect, useState } from 'react'
 import { educationData } from '../data/mockData'
+import { getEducation, mapEducationToView } from '../services/educationService'
 import { SectionEmpty, SectionError, SectionLoading } from '../components/SectionState'
 
 const Education = () => {
-  const { profile, loading, error } = usePortfolio()
-  const education = profile?.education || educationData
-  const formal = education.formal || []
-  const courses = education.courses || []
+  const [education, setEducation] = useState({ formal: [], courses: [] })
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    let cancelled = false
+
+    const load = async () => {
+      try {
+        const data = await getEducation()
+        if (!cancelled) {
+          setEducation(mapEducationToView(data))
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message)
+          setEducation(educationData)
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false)
+        }
+      }
+    }
+
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const { formal, courses } = education
 
   return (
     <section id="education" className="section-container bg-white dark:bg-gray-900">
@@ -18,7 +46,11 @@ const Education = () => {
         </p>
 
         {loading && <SectionLoading />}
-        {error && !loading && <SectionError message={error} />}
+        {error && !loading && (
+          <p className="text-center text-amber-600 dark:text-amber-400 text-sm mb-4">
+            Mostrando datos locales: {error}
+          </p>
+        )}
         {!loading && !formal.length && !courses.length && (
           <SectionEmpty message="Sin registros de educación." />
         )}
@@ -42,20 +74,45 @@ const Education = () => {
                 Educación Formal
               </h3>
               <div className="space-y-6">
+                {formal.length === 0 && (
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
+                    Sin registros de educación formal.
+                  </p>
+                )}
                 {formal.map((edu) => (
                   <div key={edu.id} className="card">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
                       <h4 className="text-lg font-bold text-gray-900 dark:text-white">
                         {edu.degree}
                       </h4>
-                      <span className="text-gray-500 dark:text-gray-400 text-sm mt-1 md:mt-0">
-                        {edu.period}
-                      </span>
+                      {edu.period && (
+                        <span className="text-gray-500 dark:text-gray-400 text-sm mt-1 md:mt-0">
+                          {edu.period}
+                        </span>
+                      )}
                     </div>
                     <p className="text-primary-600 dark:text-primary-400 font-medium mb-2">
-                      {edu.institution}
+                      {edu.institutionUrl ? (
+                        <a
+                          href={edu.institutionUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline"
+                        >
+                          {edu.institution}
+                        </a>
+                      ) : (
+                        edu.institution
+                      )}
                     </p>
-                    <p className="text-gray-600 dark:text-gray-300">{edu.description}</p>
+                    {edu.fieldOfStudy && (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        {edu.fieldOfStudy}
+                      </p>
+                    )}
+                    {edu.description && (
+                      <p className="text-gray-600 dark:text-gray-300">{edu.description}</p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -77,20 +134,45 @@ const Education = () => {
                 Cursos y Diplomaturas
               </h3>
               <div className="space-y-6">
+                {courses.length === 0 && (
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
+                    Sin cursos o diplomaturas registrados.
+                  </p>
+                )}
                 {courses.map((course) => (
                   <div key={course.id} className="card">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
                       <h4 className="text-lg font-bold text-gray-900 dark:text-white">
                         {course.title}
                       </h4>
-                      <span className="text-gray-500 dark:text-gray-400 text-sm mt-1 md:mt-0">
-                        {course.period}
-                      </span>
+                      {course.period && (
+                        <span className="text-gray-500 dark:text-gray-400 text-sm mt-1 md:mt-0">
+                          {course.period}
+                        </span>
+                      )}
                     </div>
                     <p className="text-primary-600 dark:text-primary-400 font-medium mb-2">
-                      {course.institution}
+                      {course.institutionUrl ? (
+                        <a
+                          href={course.institutionUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline"
+                        >
+                          {course.institution}
+                        </a>
+                      ) : (
+                        course.institution
+                      )}
                     </p>
-                    <p className="text-gray-600 dark:text-gray-300">{course.description}</p>
+                    {course.fieldOfStudy && (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        {course.fieldOfStudy}
+                      </p>
+                    )}
+                    {course.description && (
+                      <p className="text-gray-600 dark:text-gray-300">{course.description}</p>
+                    )}
                   </div>
                 ))}
               </div>
