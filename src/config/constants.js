@@ -10,12 +10,9 @@ export const PORTFOLIO_CONFIG = {
     role: 'Full Stack GIS Developer',
     tagline:
       'Geólogo, Especialista en Ciencia de Datos y Desarrollador Full Stack GIS.',
-    email: 'contacto@ejemplo.com',
     linkedin: 'https://www.linkedin.com/in/patricio-pagano',
     github: 'https://github.com/ppagano91',
-    // Ruta a la foto de perfil (puede ser local o URL)
-    // Coloca tu imagen en public/images/profile.jpg o usa una URL
-    profileImage: '/images/profile.jpg', // Cambia esta ruta según tu imagen
+    profileImage: '/images/profile.jpg',
   },
   
   // Secciones activas

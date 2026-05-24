@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { educationData } from '../data/mockData'
+import { getCourses, mapCourseToView } from '../services/courseService'
 import { getEducation, mapEducationToView } from '../services/educationService'
-import { SectionEmpty, SectionError, SectionLoading } from '../components/SectionState'
+import { SectionEmpty, SectionLoading } from '../components/SectionState'
+
+const isDev = import.meta.env.DEV
 
 const Education = () => {
-  const [education, setEducation] = useState({ formal: [], courses: [] })
+  const [formal, setFormal] = useState([])
+  const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -13,15 +17,21 @@ const Education = () => {
 
     const load = async () => {
       try {
-        const data = await getEducation()
-        if (!cancelled) {
-          setEducation(mapEducationToView(data))
-        }
+        const [educationDataApi, coursesDataApi] = await Promise.all([
+          getEducation(),
+          getCourses(),
+        ])
+
+        if (cancelled) return
+
+        const { formal: formalItems } = mapEducationToView(educationDataApi)
+        setFormal(formalItems)
+        setCourses(coursesDataApi.map(mapCourseToView))
       } catch (err) {
-        if (!cancelled) {
-          setError(err.message)
-          setEducation(educationData)
-        }
+        if (cancelled) return
+        setError(err.message)
+        setFormal(isDev ? educationData.formal : [])
+        setCourses([])
       } finally {
         if (!cancelled) {
           setLoading(false)
@@ -35,7 +45,7 @@ const Education = () => {
     }
   }, [])
 
-  const { formal, courses } = education
+  const hasContent = formal.length > 0 || courses.length > 0
 
   return (
     <section id="education" className="section-container bg-white dark:bg-gray-900">
@@ -48,13 +58,15 @@ const Education = () => {
         {loading && <SectionLoading />}
         {error && !loading && (
           <p className="text-center text-amber-600 dark:text-amber-400 text-sm mb-4">
-            Mostrando datos locales: {error}
+            {isDev
+              ? `Mostrando datos locales parciales: ${error}`
+              : 'No se pudieron cargar todos los datos de educación.'}
           </p>
         )}
-        {!loading && !formal.length && !courses.length && (
+        {!loading && !hasContent && (
           <SectionEmpty message="Sin registros de educación." />
         )}
-        {!loading && (formal.length > 0 || courses.length > 0) && (
+        {!loading && hasContent && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
@@ -165,13 +177,35 @@ const Education = () => {
                         course.institution
                       )}
                     </p>
-                    {course.fieldOfStudy && (
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                        {course.fieldOfStudy}
+                    {course.category && (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 capitalize">
+                        {course.category}
                       </p>
                     )}
                     {course.description && (
-                      <p className="text-gray-600 dark:text-gray-300">{course.description}</p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-2">{course.description}</p>
+                    )}
+                    {course.skills.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {course.skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="px-2 py-0.5 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full text-xs font-medium"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {course.credentialUrl && (
+                      <a
+                        href={course.credentialUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-primary-600 dark:text-primary-400 hover:underline"
+                      >
+                        Ver credencial
+                      </a>
                     )}
                   </div>
                 ))}

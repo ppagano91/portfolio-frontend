@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { PORTFOLIO_CONFIG } from '../config/constants'
-import { getProfile } from '../services/profileService'
+import { getProfile, mapProfileToPersonal } from '../services/profileService'
 
 const PortfolioContext = createContext({
   profile: null,
@@ -40,17 +40,7 @@ export function PortfolioProvider({ children }) {
     }
   }, [])
 
-  const personal = profile
-    ? {
-        name: profile.name,
-        role: profile.title,
-        tagline: profile.summary || '',
-        email: profile.links?.email || PORTFOLIO_CONFIG.personal.email,
-        linkedin: profile.links?.linkedin || PORTFOLIO_CONFIG.personal.linkedin,
-        github: profile.links?.github || PORTFOLIO_CONFIG.personal.github,
-        profileImage: profile.profile_image_url || PORTFOLIO_CONFIG.personal.profileImage,
-      }
-    : PORTFOLIO_CONFIG.personal
+  const personal = mapProfileToPersonal(profile)
 
   return (
     <PortfolioContext.Provider value={{ profile, personal, loading, error }}>
