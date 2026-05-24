@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react'
-import { usePortfolio } from '../contexts/PortfolioContext'
-import { aboutData } from '../data/mockData'
-import { SectionEmpty, SectionLoading } from '../components/SectionState'
-import { mapProfileToAbout } from '../services/profileService'
+import React, { useMemo } from "react";
+import { usePortfolio } from "../contexts/PortfolioContext";
+import { aboutData } from "../data/mockData";
+import { SectionEmpty, SectionLoading } from "../components/SectionState";
+import { mapProfileToAbout } from "../services/profileService";
 
 const CHIP_CLASS =
-  'px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium'
+  "px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium";
 
 function getLocalAboutFallback() {
   return {
@@ -14,24 +14,24 @@ function getLocalAboutFallback() {
     focusAreas: [],
     keySkills: [],
     focusText: aboutData.focus || null,
-  }
+  };
 }
 
 const About = () => {
-  const { profile, loading, error } = usePortfolio()
+  const { profile, loading, error } = usePortfolio();
 
   const about = useMemo(() => {
     if (profile) {
-      return mapProfileToAbout(profile)
+      return mapProfileToAbout(profile);
     }
-    return getLocalAboutFallback()
-  }, [profile])
+    return getLocalAboutFallback();
+  }, [profile]);
 
   const hasContent =
     Boolean(about.content) ||
     about.focusAreas.length > 0 ||
     about.keySkills.length > 0 ||
-    Boolean(about.focusText)
+    Boolean(about.focusText);
 
   return (
     <section id="about" className="section-container bg-white dark:bg-gray-900">
@@ -48,7 +48,7 @@ const About = () => {
 
         {!loading && (
           <div className="space-y-6 text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-            {about.content && <p>{about.content}</p>}
+            {about.content && <p className="text-justify">{about.content}</p>}
 
             {!profile && about.focusText && (
               <p className="text-primary-600 dark:text-primary-400 font-medium">
@@ -93,7 +93,7 @@ const About = () => {
         )}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default About
+export default About;

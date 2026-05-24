@@ -55,6 +55,7 @@ export function mapProfileToPersonal(profile, fallback = PORTFOLIO_CONFIG.person
       linkedin: fallback.linkedin || null,
       github: fallback.github || null,
       profileImage: fallback.profileImage || null,
+      cvUrl: null,
     }
   }
 
@@ -74,6 +75,7 @@ export function mapProfileToPersonal(profile, fallback = PORTFOLIO_CONFIG.person
     linkedin: profile.linkedin_url?.trim() || null,
     github: profile.github_url?.trim() || null,
     profileImage: profile.profile_image_url?.trim() || fallback.profileImage,
+    cvUrl: profile.cv_url?.trim() || null,
   }
 }
 

@@ -69,6 +69,16 @@ const Hero = () => {
             <button onClick={() => scrollToSection('projects')} className="btn-primary">
               Ver Proyectos
             </button>
+            {personal.cvUrl && (
+              <a
+                href={personal.cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary inline-block text-center"
+              >
+                Ver CV
+              </a>
+            )}
             <button onClick={() => scrollToSection('contact')} className="btn-secondary">
               Contactar
             </button>
