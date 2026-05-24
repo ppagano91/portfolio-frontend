@@ -7,12 +7,15 @@ export const PORTFOLIO_CONFIG = {
   // Información personal
   personal: {
     name: 'Patricio Pagano',
-    role: 'Full Stack GIS Developer',
+    role:
+      'Desarrollador Full Stack GIS | Licenciado en Ciencias Geológicas | Especialista en Ciencia de Datos',
     tagline:
-      'Geólogo, Especialista en Ciencia de Datos y Desarrollador Full Stack GIS.',
-    linkedin: 'https://www.linkedin.com/in/patricio-pagano',
+      'GIS, datos espaciales, backend, GeoServer, PostgreSQL/PostGIS, React y MapLibre',
+    email: 'pagano.patricio@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/patricio-pagano/',
     github: 'https://github.com/ppagano91',
-    profileImage: '/images/profile.jpg',
+    profileImage:
+      'https://media.licdn.com/dms/image/v2/D4D03AQFwDgltNvy2bg/profile-displayphoto-crop_800_800/B4DZ5QTuu_J8AI-/0/1779463810864?e=1781136000&v=beta&t=DXfE0ntB1aSf-WVQMzyoMF6JRTz9RPJ10hGPLZ0H-Ns',
   },
   
   // Secciones activas

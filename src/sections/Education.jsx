@@ -31,7 +31,7 @@ const Education = () => {
         if (cancelled) return
         setError(err.message)
         setFormal(isDev ? educationData.formal : [])
-        setCourses([])
+        setCourses(isDev ? educationData.courses : [])
       } finally {
         if (!cancelled) {
           setLoading(false)

@@ -1,43 +1,160 @@
 /**
- * Datos mock para el portfolio
- * En el futuro, estos datos vendrán de una API REST
+ * Datos mock para el portfolio (fallback cuando la API no está disponible).
+ * Alineados con init.sql y la DB de producción.
  */
 
-export const aboutData = {
-  title: 'Sobre mí',
-  content: `Soy un desarrollador frontend apasionado por crear interfaces de usuario 
-    intuitivas y experiencias digitales memorables. Con experiencia en tecnologías 
-    modernas y un enfoque en código limpio y mantenible, busco siempre la excelencia 
-    en cada proyecto.`,
-  focus: 'Mi enfoque se centra en la creación de aplicaciones escalables, accesibles y con un diseño centrado en el usuario.',
+export const profileData = {
+  id: 1,
+  name: 'Patricio Pagano',
+  slug: 'patricio-pagano',
+  title:
+    'Desarrollador Full Stack GIS | Licenciado en Ciencias Geológicas | Especialista en Ciencia de Datos',
+  subtitle:
+    'GIS, datos espaciales, backend, GeoServer, PostgreSQL/PostGIS, React y MapLibre',
+  summary:
+    'Geólogo y Desarrollador Full Stack GIS con experiencia en aplicaciones web geoespaciales, APIs REST, bases de datos espaciales y publicación de servicios GIS.',
+  location: 'Argentina',
+  profile_image_url:
+    'https://media.licdn.com/dms/image/v2/D4D03AQFwDgltNvy2bg/profile-displayphoto-crop_800_800/B4DZ5QTuu_J8AI-/0/1779463810864?e=1781136000&v=beta&t=DXfE0ntB1aSf-WVQMzyoMF6JRTz9RPJ10hGPLZ0H-Ns',
+  linkedin_url: 'https://www.linkedin.com/in/patricio-pagano/',
+  github_url: 'https://github.com/ppagano91',
+  email: 'pagano.patricio@gmail.com',
+  phone: '2916418967',
+  cv_url:
+    'https://drive.google.com/drive/u/1/folders/1mqtv3alsWqKROhL-kHZItUuF0GuMMeqs',
+  about_title: 'Sobre mí',
+  about_content: `Soy Licenciado en Ciencias Geológicas y Desarrollador Full Stack GIS, con formación complementaria en Ciencia de Datos, Sistemas de Información Geográfica y Geomática. Mi perfil combina conocimiento territorial, análisis de datos espaciales y desarrollo de software para construir soluciones geoespaciales robustas, claras y mantenibles.
+
+Trabajo en el desarrollo de aplicaciones web GIS, APIs REST y herramientas para consulta, visualización y administración de información geográfica. Tengo experiencia con PostgreSQL/PostGIS, GeoServer, QGIS, servicios OGC y librerías de mapas web como Leaflet y MapLibre, integrando backend, frontend y bases de datos espaciales en soluciones orientadas a usuarios técnicos y funcionales.
+
+Me interesa especialmente la intersección entre geociencias, datos y tecnología. Por eso oriento mi trabajo hacia proyectos vinculados a GIS, geomática, análisis territorial, minería, Oil & Gas y visualización de datos georreferenciados. Busco desarrollar herramientas que no solo funcionen, sino que también sean útiles, eficientes y fáciles de evolucionar.`,
+  focus_areas: [
+    'Aplicaciones Web Geoespaciales',
+    'APIs REST para Datos Espaciales',
+    'Ciencia de Datos',
+    'Geomática',
+    'Geociencias',
+    'Minería',
+    'Oil & Gas',
+  ],
+  key_skills: [
+    'Python',
+    'PostgreSQL',
+    'PostGIS',
+    'GeoServer',
+    'GeoNetwork',
+    'Geoserver',
+    'React',
+    'JavaScript',
+    'TypeScript',
+    'MapLibre',
+    'Power BI',
+    'Docker',
+    'Git',
+  ],
+  is_active: true,
+  sort_order: 0,
 }
 
+export const aboutData = {
+  title: profileData.about_title,
+  content: profileData.about_content,
+  focusAreas: profileData.focus_areas,
+  keySkills: profileData.key_skills,
+}
+
+/** Formato de tarjeta usado por Experience.jsx (solo publicados). */
 export const experienceData = [
   {
     id: 1,
-    title: 'Desarrollador Frontend Senior',
-    company: 'Empresa Tech',
-    period: '2022 - Presente',
-    description: 'Lidero el desarrollo de interfaces de usuario utilizando React y TypeScript. Colaboro con equipos multidisciplinarios para entregar productos de alta calidad.',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Redux'],
+    title: 'Desarrollador Full Stack GIS',
+    company: 'Geosystems SA',
+    period: '2023 - Presente',
+    description:
+      'Desarrollo de soluciones web geoespaciales, APIs REST, integración con servicios GIS y bases de datos espaciales.',
+    technologies: [
+      'Python',
+      'FastAPI',
+      'PostgreSQL/PostGIS',
+      'GeoServer',
+      'QGIS',
+      'React',
+      'Leaflet',
+      'MapLibre',
+      'Docker',
+      'Git',
+    ],
+    location: 'Ciudad Autónoma de Buenos Aires',
   },
   {
     id: 2,
-    title: 'Desarrollador Frontend',
-    company: 'Startup Innovadora',
-    period: '2020 - 2022',
-    description: 'Desarrollé y mantuve aplicaciones web responsivas, implementando mejores prácticas y optimizando el rendimiento.',
-    technologies: ['React', 'JavaScript', 'CSS3', 'REST APIs'],
+    title: 'Desarrollador Full Stack Jr',
+    company: 'Paradigma del Sur SA',
+    period: '2022 - 2023',
+    description:
+      'Desarrollo y mantenimiento de aplicaciones web, funcionalidades frontend/backend y resolución de incidencias técnicas.',
+    technologies: ['JavaScript', 'React', 'Python', 'Django', 'SQL', 'Git'],
+    location: 'Bahía Blanca',
   },
   {
     id: 3,
-    title: 'Desarrollador Junior',
-    company: 'Agencia Digital',
-    period: '2019 - 2020',
-    description: 'Participé en el desarrollo de sitios web y aplicaciones, aprendiendo las bases del desarrollo frontend moderno.',
-    technologies: ['HTML5', 'CSS3', 'JavaScript', 'jQuery'],
+    title: 'Auxiliar de Investigación',
+    company: 'Universidad Nacional del Sur',
+    period: '2021 - 2022',
+    description: 'Análisis geológico y geoespacial aplicado a la Cuenca Neuquina.',
+    technologies: ['QGIS', 'GIS', 'Python', 'Datos georreferenciados'],
+    location: 'Bahía Blanca',
   },
 ]
+
+export const educationData = {
+  formal: [
+    {
+      id: 2,
+      degree: 'Especialización en Ciencia de Datos',
+      institution: 'Universidad Nacional del Sur',
+      period: '2022 - 2023',
+      description: '',
+      fieldOfStudy: 'Computación',
+      location: 'Bahía Blanca',
+      institutionUrl: null,
+    },
+    {
+      id: 1,
+      degree: 'Licenciatura en Ciencias Geológicas',
+      institution: 'Universidad Nacional del Sur',
+      period: '2011 - 2017',
+      description: '',
+      fieldOfStudy: 'Geología',
+      location: 'Bahía Blanca',
+      institutionUrl: null,
+    },
+  ],
+  courses: [
+    {
+      id: 3,
+      title: 'Diplomatura en Geomática Aplicada',
+      institution: 'Instituto Gulich',
+      period: '2025 - 2025',
+      description: '',
+      category: 'tecnologías de la información',
+      skills: [],
+      credentialUrl: null,
+      institutionUrl: null,
+    },
+    {
+      id: 4,
+      title: 'Diplomatura en Sistemas de Información Geográfica',
+      institution: 'Universidad de Buenos Aires',
+      period: '2022 - 2022',
+      description: '',
+      category: 'tecnologías de la información',
+      skills: [],
+      credentialUrl: null,
+      institutionUrl: null,
+    },
+  ],
+}
 
 export const projectsData = [
   {
@@ -100,46 +217,3 @@ export const technologiesData = {
     { name: 'AWS', level: 'Básico' },
   ],
 }
-
-export const educationData = {
-  formal: [
-    {
-      id: 1,
-      degree: 'Ingeniería en Sistemas',
-      institution: 'Universidad Nacional',
-      period: '2015 - 2019',
-      description: 'Formación en ciencias de la computación, algoritmos y estructuras de datos.',
-    },
-    {
-      id: 2,
-      degree: 'Técnico en Programación',
-      institution: 'Instituto Técnico',
-      period: '2013 - 2015',
-      description: 'Base técnica en programación y desarrollo de software.',
-    },
-  ],
-  courses: [
-    {
-      id: 1,
-      title: 'React Avanzado',
-      institution: 'Platzi',
-      period: '2023',
-      description: 'Curso avanzado de React con hooks, context y optimización.',
-    },
-    {
-      id: 2,
-      title: 'TypeScript para Desarrolladores',
-      institution: 'Udemy',
-      period: '2022',
-      description: 'Dominio completo de TypeScript en proyectos reales.',
-    },
-    {
-      id: 3,
-      title: 'Diplomatura en Desarrollo Full Stack',
-      institution: 'Universidad Online',
-      period: '2021',
-      description: 'Programa completo de desarrollo full stack con proyectos prácticos.',
-    },
-  ],
-}
-

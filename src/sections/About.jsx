@@ -11,9 +11,9 @@ function getLocalAboutFallback() {
   return {
     title: aboutData.title,
     content: aboutData.content,
-    focusAreas: [],
-    keySkills: [],
-    focusText: aboutData.focus || null,
+    focusAreas: aboutData.focusAreas || [],
+    keySkills: aboutData.keySkills || [],
+    focusText: null,
   };
 }
 

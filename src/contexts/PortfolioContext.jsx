@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { PORTFOLIO_CONFIG } from '../config/constants'
+import { profileData } from '../data/mockData'
 import { getProfile, mapProfileToPersonal } from '../services/profileService'
 
 const PortfolioContext = createContext({
@@ -26,6 +27,7 @@ export function PortfolioProvider({ children }) {
       } catch (err) {
         if (!cancelled) {
           setError(err.message)
+          setProfile(profileData)
         }
       } finally {
         if (!cancelled) {
